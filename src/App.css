@@ -1,3 +1,4 @@
+@import "tailwindcss";
 :root {
   --primary-color: #ffcf4d; /* Duck yellow */
   --primary-dark: #e7b831; /* Darker yellow */
