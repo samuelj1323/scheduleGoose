@@ -4,13 +4,15 @@ import { Dashboard } from "./pages/Dashboard";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <div className="dark:bg-gray-900 dark:text-white">
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </div>
   );
 }
 
