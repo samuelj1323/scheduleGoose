@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -9,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 export const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
@@ -17,39 +19,40 @@ export const Sidebar: React.FC = () => {
   const createNavItem = (
     label: string,
     icon: React.ReactNode,
-    isActive: boolean,
-    href: string,
-    onClick: () => void
-  ) => (
-    <NavigationMenuItem key={label} className="w-full">
-      <NavigationMenuLink
-        href={href}
-        data-active={isActive}
-        onClick={onClick}
-        className={cn(
-          "flex flex-row items-center justify-center text-sm font-medium w-full py-4 transition-all",
-          collapsed && "px-0",
-          !collapsed && "justify-start px-4",
-          isActive
-            ? "text-[#1a237e] font-semibold bg-accent/50 dark:text-blue-300 dark:bg-gray-800/50"
-            : "text-gray-600 hover:text-[#1a237e] hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-800"
-        )}
-      >
-        <div className="w-10 h-10 flex items-center justify-center">
-          <span
-            className={
-              isActive
-                ? "text-[#1a237e] dark:text-blue-300"
-                : "text-gray-500 dark:text-white"
-            }
-          >
-            {icon}
-          </span>
-        </div>
-        {!collapsed && <span className="ml-3">{label}</span>}
-      </NavigationMenuLink>
-    </NavigationMenuItem>
-  );
+    href: string
+  ) => {
+    const isActive = location.pathname === href;
+
+    return (
+      <NavigationMenuItem key={label} className="w-full">
+        <NavigationMenuLink
+          href={href}
+          data-active={isActive}
+          className={cn(
+            "flex flex-row items-center justify-center text-sm font-medium w-full py-4 transition-all",
+            collapsed && "px-0",
+            !collapsed && "justify-start px-4",
+            isActive
+              ? "text-[#1a237e] font-semibold bg-accent/50 dark:text-blue-300 dark:bg-gray-800/50"
+              : "text-gray-600 hover:text-[#1a237e] hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-800"
+          )}
+        >
+          <div className="w-10 h-10 flex items-center justify-center">
+            <span
+              className={
+                isActive
+                  ? "text-[#1a237e] dark:text-blue-300"
+                  : "text-gray-500 dark:text-white"
+              }
+            >
+              {icon}
+            </span>
+          </div>
+          {!collapsed && <span className="ml-3">{label}</span>}
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+    );
+  };
 
   return (
     <aside
@@ -121,9 +124,7 @@ export const Sidebar: React.FC = () => {
                     d="M4 6h16M4 12h16M4 18h7"
                   />
                 </svg>,
-                true,
-                "#",
-                () => console.log("Dashboard clicked")
+                "/"
               )}
 
               {createNavItem(
@@ -142,9 +143,7 @@ export const Sidebar: React.FC = () => {
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
                   />
                 </svg>,
-                false,
-                "#",
-                () => console.log("Upload clicked")
+                "/upload"
               )}
 
               {createNavItem(
@@ -163,9 +162,7 @@ export const Sidebar: React.FC = () => {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>,
-                false,
-                "#",
-                () => console.log("Scheduled clicked")
+                "/scheduled"
               )}
 
               {createNavItem(
@@ -184,9 +181,7 @@ export const Sidebar: React.FC = () => {
                     d="M13 10V3L4 14h7v7l9-11h-7z"
                   />
                 </svg>,
-                false,
-                "#",
-                () => console.log("Integrations clicked")
+                "/integrations"
               )}
 
               {createNavItem(
@@ -205,9 +200,7 @@ export const Sidebar: React.FC = () => {
                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                   />
                 </svg>,
-                false,
-                "#",
-                () => console.log("Analytics clicked")
+                "/analytics"
               )}
 
               {createNavItem(
@@ -232,9 +225,7 @@ export const Sidebar: React.FC = () => {
                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>,
-                false,
-                "#",
-                () => console.log("Settings clicked")
+                "/settings"
               )}
             </NavigationMenuList>
           </div>
