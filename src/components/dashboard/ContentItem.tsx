@@ -70,33 +70,20 @@ export const ContentItem: React.FC<ContentItemProps> = ({
 
   return (
     <div
-      className={`py-3 border-b border-gray-100 flex items-center justify-between ${className} last:border-b-0`}
+      className={`py-3 border-b border-gray-100 dark:border-b dark:border-white flex items-center justify-between ${className} last:border-b-0`}
     >
       <div className="flex items-center">
-        <div className="w-6 h-6 flex items-center justify-center text-gray-600 mr-3">
+        <div className="w-6 h-6 flex items-center justify-center text-gray-600 dark:text-gray-400 mr-3">
           {iconMap[type]}
         </div>
         <div>
-          <div className="font-medium text-gray-800">{typeText[type]}</div>
-          <div className="text-sm text-gray-500">{title}</div>
+          <div className="font-medium text-gray-800 dark:text-gray-200">
+            {typeText[type]}
+          </div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            {title}
+          </div>
         </div>
-      </div>
-
-      <div className="flex items-center">
-        <svg
-          className="w-5 h-5 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-          />
-        </svg>
       </div>
     </div>
   );

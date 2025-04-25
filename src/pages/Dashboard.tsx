@@ -31,11 +31,13 @@ import {
 } from "../components/ui/tabs";
 import { ContentItem } from "../components/dashboard/ContentItem";
 import { ActivityChart } from "../components/dashboard/ActivityChart";
+import { useQuery } from "@tanstack/react-query";
 
 // Define the Upload type to match UploadsTable expected type
 interface Upload {
-  id: string;
-  content: string;
+  id: string | number;
+  title?: string;
+  content?: string;
   type: "video" | "blog" | "audio";
   status: "published" | "scheduled" | "draft";
 }
@@ -45,6 +47,19 @@ type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
 export const Dashboard: React.FC = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["scheduledContent"],
+    queryFn: async () => {
+      const response = await fetch(
+        "http://localhost:3000/api/v1/scheduledContent"
+      );
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      return response.json();
+    },
+  });
 
   const recentUploads: Upload[] = [
     { id: "1", content: "Product Demo", type: "video", status: "published" },
@@ -128,7 +143,13 @@ export const Dashboard: React.FC = () => {
         return null;
     }
   };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   return (
     <div className="dark:bg-gray-900 dark:text-white">
       <div className="flex justify-between items-center mb-6">
@@ -173,9 +194,13 @@ export const Dashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <ContentItem type="video" title="YT Teaser" />
-              <ContentItem type="blog" title="How to Batch Create" />
-              <ContentItem type="audio" title="Ep: 12: Interview" />
+              {data?.content.map((item: Upload) => (
+                <ContentItem
+                  key={item.id}
+                  title={item.title || (item.content as string)}
+                  type={item.type}
+                />
+              ))}
             </div>
           </CardContent>
         </Card>
