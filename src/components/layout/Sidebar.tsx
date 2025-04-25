@@ -8,12 +8,27 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isMobile?: boolean;
+  onCloseMobile?: () => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  isMobile,
+  onCloseMobile,
+}) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
+  };
+
+  // Close sidebar on mobile when clicking a link
+  const handleNavClick = () => {
+    if (isMobile && onCloseMobile) {
+      onCloseMobile();
+    }
   };
 
   const createNavItem = (
@@ -28,10 +43,12 @@ export const Sidebar: React.FC = () => {
         <NavigationMenuLink
           href={href}
           data-active={isActive}
+          onClick={handleNavClick}
           className={cn(
             "flex flex-row items-center justify-center text-sm font-medium w-full py-4 transition-all",
-            collapsed && "px-0",
-            !collapsed && "justify-start px-4",
+            collapsed && !isMobile && "px-0",
+            !collapsed && !isMobile && "justify-start px-4",
+            isMobile && "justify-start px-4",
             isActive
               ? "text-[#1a237e] font-semibold bg-accent/50 dark:text-blue-300 dark:bg-gray-800/50"
               : "text-gray-600 hover:text-[#1a237e] hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-800"
@@ -48,7 +65,7 @@ export const Sidebar: React.FC = () => {
               {icon}
             </span>
           </div>
-          {!collapsed && <span className="ml-3">{label}</span>}
+          {(!collapsed || isMobile) && <span className="ml-3">{label}</span>}
         </NavigationMenuLink>
       </NavigationMenuItem>
     );
@@ -57,46 +74,74 @@ export const Sidebar: React.FC = () => {
   return (
     <aside
       className={cn(
-        "min-h-vh bg-white border-r border-gray-200 flex flex-col transition-all duration-300 dark:bg-gray-900 dark:border-gray-700",
-        collapsed ? "w-[70px]" : "w-[250px]"
+        "bg-white border-r border-gray-200 flex flex-col transition-all duration-300 dark:bg-gray-900 dark:border-gray-700",
+        isMobile
+          ? "w-full h-screen fixed top-0 left-0 z-50"
+          : collapsed
+          ? "w-[70px] min-h-vh"
+          : "w-[250px] min-h-vh"
       )}
     >
       <div
         className={cn(
           "flex items-center p-4",
-          collapsed ? "justify-center" : "justify-between"
+          collapsed && !isMobile ? "justify-center" : "justify-between"
         )}
       >
-        {!collapsed && (
+        {(!collapsed || isMobile) && (
           <h1 className="text-2xl font-bold text-[#1a237e] dark:text-white">
             ScheduleGoose
           </h1>
         )}
         <div className="w-10 h-10 flex items-center justify-center">
-          <button
-            onClick={toggleSidebar}
-            className="w-full h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+          {/* Show close button on mobile, collapse button on desktop */}
+          {isMobile ? (
+            <button
+              onClick={onCloseMobile}
+              className="w-full h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
+              aria-label="Close sidebar"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={
-                  collapsed
-                    ? "M13 5l7 7-7 7M5 5l7 7-7 7"
-                    : "M11 19l-7-7 7-7M19 19l-7-7 7-7"
-                }
-              />
-            </svg>
-          </button>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          ) : (
+            <button
+              onClick={toggleSidebar}
+              className="w-full h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={
+                    collapsed
+                      ? "M13 5l7 7-7 7M5 5l7 7-7 7"
+                      : "M11 19l-7-7 7-7M19 19l-7-7 7-7"
+                  }
+                />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
