@@ -6,17 +6,15 @@ import { Settings } from "./pages/Settings";
 
 function App() {
   return (
-    <div className="dark:bg-gray-900 dark:text-white">
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/upload" element={<Upload />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

@@ -9,9 +9,7 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <div className="dark:bg-gray-900 dark:text-white">
-        <App />
-      </div>
+      <App />
     </QueryClientProvider>
   </StrictMode>
 );

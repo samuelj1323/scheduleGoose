@@ -1,5 +1,23 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --primary-color: #1a237e;
+@layer base {
+  :root {
+    --primary-color: white;
+    --background-color: oklch(21% 0.034 264.665);
+    --text-color: #1f2937;
+  }
+
+  .dark {
+    --primary-color: #121858;
+    --background-color: #121212;
+    --text-color: #f3f4f6;
+  }
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }

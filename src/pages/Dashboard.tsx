@@ -151,7 +151,7 @@ export const Dashboard: React.FC = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <div className="dark:bg-gray-900 dark:text-white">
+    <div className=" dark:text-white">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold bg-primary-color text-white">
           ScheduleGoose

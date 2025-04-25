@@ -148,7 +148,7 @@ export const Upload = () => {
                           className="w-12 h-12 rounded object-cover"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded bg-gray-100   flex items-center justify-center">
                           <svg
                             className="w-6 h-6 text-gray-500"
                             fill="none"

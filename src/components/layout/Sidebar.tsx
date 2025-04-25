@@ -39,18 +39,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const isActive = location.pathname === href;
 
     return (
-      <NavigationMenuItem key={label} className="w-full">
+      <NavigationMenuItem
+        key={label}
+        className="w-full bg-background dark:bg-background"
+      >
         <NavigationMenuLink
           href={href}
           data-active={isActive}
           onClick={handleNavClick}
           className={cn(
-            "flex flex-row items-center justify-center text-sm font-medium w-full py-4 transition-all",
+            "flex bg-background dark:bg-background flex-row items-center justify-center text-sm font-medium w-full py-4 transition-all",
             collapsed && !isMobile && "px-0",
             !collapsed && !isMobile && "justify-start px-4",
             isMobile && "justify-start px-4",
             isActive
-              ? "text-[#1a237e] font-semibold bg-accent/50 dark:text-blue-300 dark:bg-gray-800/50"
+              ? "text-[#1a237e] font-semibold bg-accent/50 dark:text-blue-300 "
               : "text-gray-600 hover:text-[#1a237e] hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-800"
           )}
         >
@@ -74,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       className={cn(
-        "bg-white border-r border-gray-200 flex flex-col transition-all duration-300 dark:bg-gray-900 dark:border-gray-700",
+        " border-r border-gray-200 flex flex-col transition-all duration-300  dark:border-gray-700",
         isMobile
           ? "w-full h-screen fixed top-0 left-0 z-50"
           : collapsed
@@ -148,11 +151,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col">
         <NavigationMenu
           orientation="vertical"
-          className="w-full h-full flex-1"
+          className="w-full h-full flex-1 bg-background"
           viewport={false}
         >
           <div className="w-full">
-            <NavigationMenuList className="flex-col w-full h-full items-stretch space-y-0">
+            <NavigationMenuList className="flex-col w-full h-full items-stretch space-y-0 bg-background">
               {createNavItem(
                 "Dashboard",
                 <svg

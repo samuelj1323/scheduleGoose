@@ -32,13 +32,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  // Set initial dark mode on mount
+
   return (
-    <div className="min-h-screen bg-white flex relative dark:bg-gray-900 dark:text-white">
+    <div className="min-h-screen dark:bg-background dark:text-text flex relative">
       {/* Mobile Menu Button - only shows on mobile */}
       {isMobile && !sidebarOpen && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md dark:bg-gray-800"
+          className="fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md  "
           aria-label="Open menu"
         >
           <svg
