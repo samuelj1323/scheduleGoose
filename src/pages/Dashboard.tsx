@@ -29,9 +29,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
-import { ContentItem } from "../components/dashboard/ContentItem";
 import { ActivityChart } from "../components/dashboard/ActivityChart";
 import { useQuery } from "@tanstack/react-query";
+import ScheduledContent from "@/views/ScheduledContent";
 
 // Define the Upload type to match UploadsTable expected type
 interface Upload {
@@ -188,22 +188,7 @@ export const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Scheduled Content</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {data?.content.map((item: Upload) => (
-                <ContentItem
-                  key={item.id}
-                  title={item.title || (item.content as string)}
-                  type={item.type}
-                />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <ScheduledContent data={data} />
       </div>
 
       <Tabs defaultValue="all" className="mb-6">
