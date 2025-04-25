@@ -132,7 +132,9 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="dark:bg-gray-900 dark:text-white">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-[#1a237e]">ScheduleGoose</h1>
+        <h1 className="text-3xl font-bold bg-primary-color text-white">
+          ScheduleGoose
+        </h1>
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild>
             <Button variant="default" size="default">
