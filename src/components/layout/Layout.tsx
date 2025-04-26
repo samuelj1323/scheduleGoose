@@ -35,7 +35,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Set initial dark mode on mount
 
   return (
-    <div className="min-h-screen dark:bg-background dark:text-text flex relative">
+    <div className="min-h-screen bg-samRed text-textColor flex relative">
       {/* Mobile Menu Button - only shows on mobile */}
       {isMobile && !sidebarOpen && (
         <button

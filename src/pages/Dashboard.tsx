@@ -162,9 +162,11 @@ export const Dashboard: React.FC = () => {
               New Upload
             </Button>
           </SheetTrigger>
-          <SheetContent className="w-full sm:max-w-md">
+          <SheetContent className="w-full sm:max-w-md bg-text-color">
             <SheetHeader>
-              <SheetTitle>Create New Upload</SheetTitle>
+              <SheetTitle className="text-2xl font-bold text-primaryColor">
+                Create New Upload
+              </SheetTitle>
               <SheetDescription>
                 Add details for your new content and choose where to publish it.
               </SheetDescription>
