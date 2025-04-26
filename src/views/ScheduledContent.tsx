@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
-import { ContentItem } from "@/components/dashboard/ContentItem";
+import { ContentItem } from "@/components/Dashboard/ContentItem";
 import { Upload } from "@/types/Upload";
 
 interface ScheduledContentProps {

@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import { Sidebar } from "./Sidebar";
+import { Navbar } from "./Navbar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [navBarOpen, setNavBarOpen] = useState(false);
 
   // Check if screen is mobile size on initial load and window resize
   useEffect(() => {
@@ -29,7 +29,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   // Toggle sidebar
   const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+    setNavBarOpen(!navBarOpen);
   };
 
   // Set initial dark mode on mount
@@ -37,7 +37,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-samRed text-textColor flex relative">
       {/* Mobile Menu Button - only shows on mobile */}
-      {isMobile && !sidebarOpen && (
+      {isMobile && !navBarOpen && (
         <button
           onClick={toggleSidebar}
           className="fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md  "
@@ -66,7 +66,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           isMobile && !sidebarOpen ? "hidden" : "block"
         }`}
       >
-        <Sidebar
+        <Navbar
           onCloseMobile={isMobile ? toggleSidebar : undefined}
           isMobile={isMobile}
         />

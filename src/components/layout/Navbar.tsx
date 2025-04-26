@@ -8,15 +8,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
-interface SidebarProps {
+interface NavbarProps {
   isMobile?: boolean;
   onCloseMobile?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
-  isMobile,
-  onCloseMobile,
-}) => {
+export const Navbar: React.FC<NavbarProps> = ({ isMobile, onCloseMobile }) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -92,7 +89,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
       >
         {(!collapsed || isMobile) && (
-          <h1 className="text-2xl font-bold ">ScheduleGoose</h1>
+          <h1 className="text-2xl text-color-foreground font-bold ">
+            ScheduleGoose
+          </h1>
         )}
         <div className="w-10 h-10 flex items-center justify-center">
           {/* Show close button on mobile, collapse button on desktop */}

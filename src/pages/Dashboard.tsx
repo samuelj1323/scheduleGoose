@@ -29,9 +29,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
-import { ActivityChart } from "../components/dashboard/ActivityChart";
+import { ActivityChart } from "../components/Dashboard/ActivityChart";
 import { useQuery } from "@tanstack/react-query";
 import ScheduledContent from "@/views/ScheduledContent";
+import { UploadSheet } from "@/components/Dashboard/UploadSheet";
 
 // Define the Upload type to match UploadsTable expected type
 interface Upload {
@@ -153,31 +154,11 @@ export const Dashboard: React.FC = () => {
   return (
     <div className=" dark:text-white">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold bg-primary-color text-white">
-          ScheduleGoose
-        </h1>
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetTrigger asChild>
-            <Button variant="default" size="default">
-              New Upload
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="w-full sm:max-w-md bg-text-color">
-            <SheetHeader>
-              <SheetTitle className="text-2xl font-bold text-primaryColor">
-                Create New Upload
-              </SheetTitle>
-              <SheetDescription>
-                Add details for your new content and choose where to publish it.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="py-6">
-              <p className="text-sm text-muted-foreground">
-                Upload form would go here
-              </p>
-            </div>
-          </SheetContent>
-        </Sheet>
+        <h1 className="text-3xl font-bold ">ScheduleGoose</h1>
+        <UploadSheet
+          isSheetOpen={isSheetOpen}
+          setIsSheetOpen={setIsSheetOpen}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
