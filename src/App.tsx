@@ -3,6 +3,7 @@ import { Layout } from "./components/layout/Layout";
 import { Dashboard } from "./pages/Dashboard";
 import { Upload } from "./pages/Upload";
 import { Settings } from "./pages/Settings";
+import Schedule from "./pages/Schedule";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
       </Layout>
     </BrowserRouter>

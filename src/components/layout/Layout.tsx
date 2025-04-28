@@ -63,7 +63,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Sidebar - hidden on mobile unless toggled */}
       <div
         className={`${isMobile ? "fixed z-40 h-full" : ""} ${
-          isMobile && !sidebarOpen ? "hidden" : "block"
+          isMobile && !navBarOpen ? "hidden" : "block"
         }`}
       >
         <Navbar
@@ -78,7 +78,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       </main>
 
       {/* Overlay for mobile when sidebar is open */}
-      {isMobile && sidebarOpen && (
+      {isMobile && navBarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30"
           onClick={toggleSidebar}
