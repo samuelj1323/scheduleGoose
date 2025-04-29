@@ -50,7 +50,7 @@ export const Dashboard: React.FC = () => {
       }
       return response.json();
     },
-    refetchInterval: 10000,
+    refetchInterval: 1000,
   });
 
   const recentUploads: Upload[] = [

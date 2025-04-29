@@ -46,7 +46,6 @@ export const UploadSheet = ({
       file: null,
     },
     onSubmit: (values: scheduledContent) => {
-      console.log(values);
       scheduledContentMutation.mutate(values);
     },
   });
@@ -60,6 +59,9 @@ export const UploadSheet = ({
         },
         body: JSON.stringify(values),
       });
+    },
+    onSuccess: () => {
+      setIsSheetOpen(false);
     },
   });
   return (

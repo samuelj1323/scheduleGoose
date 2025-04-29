@@ -10,6 +10,7 @@ interface scheduledContent {
   description: string;
   publishDate: Date;
   file: File | null;
+  type: string;
 }
 const app = express();
 const port = 3000;
@@ -27,6 +28,7 @@ const schedule: scheduledContent[] = [
     status: "scheduled",
     publishDate: new Date("2025-05-01"),
     file: null,
+    type: "video",
   },
 ];
 
@@ -41,7 +43,7 @@ app.get("/api/v1/scheduledContent", (req: Request, res: Response) => {
 });
 app.post("/api/v1/scheduledContent", (req: Request, res: Response) => {
   try {
-    schedule.push({ ...req.body, id: schedule.length + 1 });
+    schedule.push({ ...req.body, type: "video", id: schedule.length + 1 });
     console.log(req);
     res.status(201).json({
       content: schedule,
