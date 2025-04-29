@@ -161,16 +161,7 @@ export const Dashboard: React.FC = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Upload Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ActivityChart />
-          </CardContent>
-        </Card>
-
+      <div className="  md:grid-cols-2 gap-6 mb-6">
         <ScheduledContent data={data} />
       </div>
 

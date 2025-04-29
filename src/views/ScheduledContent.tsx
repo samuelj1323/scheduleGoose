@@ -7,7 +7,7 @@ interface ScheduledContentProps {
 }
 const ScheduledContent = ({ data }: ScheduledContentProps) => {
   return (
-    <Card>
+    <Card id="scheduled-content" className="w-full">
       <CardHeader>
         <CardTitle>Scheduled Content</CardTitle>
       </CardHeader>
