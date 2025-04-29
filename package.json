@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "compile-server": "tsc -p tsconfig.server.json",
-    "start-server": "node dist/server.js",
+    "start-server": "node --inspect dist/server.js",
     "start": "concurrently \"npm run dev\" \"npm run compile-server && npm run start-server\""
   },
   "dependencies": {

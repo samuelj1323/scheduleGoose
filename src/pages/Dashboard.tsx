@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/Card";
-import { Button } from "../components/ui/Button";
 import {
   Table,
   TableBody,
@@ -16,20 +15,11 @@ import {
 } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../components/ui/sheet";
-import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
-import { ActivityChart } from "../components/Dashboard/ActivityChart";
 import { useQuery } from "@tanstack/react-query";
 import ScheduledContent from "@/views/ScheduledContent";
 import { UploadSheet } from "@/components/Dashboard/UploadSheet";
@@ -60,6 +50,7 @@ export const Dashboard: React.FC = () => {
       }
       return response.json();
     },
+    refetchInterval: 10000,
   });
 
   const recentUploads: Upload[] = [

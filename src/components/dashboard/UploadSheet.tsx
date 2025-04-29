@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Datepicker } from "../ui/Datepicker";
+import { useMutation } from "@tanstack/react-query";
 export const UploadSheet = ({
   isSheetOpen,
   setIsSheetOpen,
@@ -27,16 +28,38 @@ export const UploadSheet = ({
   isSheetOpen: boolean;
   setIsSheetOpen: (isSheetOpen: boolean) => void;
 }) => {
+  interface scheduledContent {
+    title: string;
+    platform: string;
+    status: string;
+    description: string;
+    publishDate: Date;
+    file: File | null;
+  }
   const formik = useFormik({
     initialValues: {
-      type: "",
+      status: "scheduled",
+      platform: "",
       title: "",
       description: "",
-      publishDate: "",
-      file: "",
+      publishDate: new Date(),
+      file: null,
     },
-    onSubmit: (values) => {
+    onSubmit: (values: scheduledContent) => {
       console.log(values);
+      scheduledContentMutation.mutate(values);
+    },
+  });
+
+  const scheduledContentMutation = useMutation({
+    mutationFn: (values: scheduledContent) => {
+      return fetch("http://localhost:3000/api/v1/scheduledContent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
     },
   });
   return (
@@ -79,9 +102,9 @@ export const UploadSheet = ({
               placeholder="Description"
               onChange={formik.handleChange}
             />
-            <Label htmlFor="type">Platform</Label>
+            <Label htmlFor="platform">Platform</Label>
             <Select
-              onValueChange={(value) => formik.setFieldValue("type", value)}
+              onValueChange={(value) => formik.setFieldValue("platform", value)}
             >
               <SelectTrigger className="mb-4">
                 <SelectValue placeholder="Select a platform" />
@@ -92,7 +115,6 @@ export const UploadSheet = ({
             </Select>
             <Label htmlFor="publishDate">Publish Date</Label>
             <Datepicker
-              className="w-full"
               name="publishDate"
               onChange={formik.handleChange}
               value={
