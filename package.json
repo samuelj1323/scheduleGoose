@@ -4,13 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "compile-server": "tsc -p tsconfig.server.json",
     "start-server": "node --inspect dist/server.js",
-    "start": "concurrently \"npm run dev\" \"npm run compile-server && npm run start-server\""
+    "dev": "concurrently \"vite\" \"npm run compile-server && npm run start-server\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
