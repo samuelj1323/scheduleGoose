@@ -12,19 +12,31 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useFormik } from "formik";
+
+interface registerFormValues {
+  username: string;
+  password: string;
+  userFirstName: string;
+  userLastName: string;
+}
 
 export const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [userFirstName, setUserFirstName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+      userFirstName: "",
+      userLastName: "",
+    },
+    onSubmit: (values: registerFormValues) => handleSubmit(values),
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values: registerFormValues) => {
     setLoading(true);
     setError("");
 
@@ -34,12 +46,7 @@ export const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-          userFirstName: userFirstName,
-          userLastName: userLastName,
-        }),
+        body: JSON.stringify(values),
       });
 
       if (!response.ok) {
@@ -69,7 +76,7 @@ export const Register = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={formik.handleSubmit} className="space-y-4">
             {error && (
               <div className="p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded">
                 {error}
@@ -81,8 +88,9 @@ export const Register = () => {
                 id="username"
                 type="text"
                 placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                name="username"
+                value={formik.values.username}
+                onChange={formik.handleChange}
                 required
               />
             </div>
@@ -92,19 +100,21 @@ export const Register = () => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 required
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="userFirstName">First name</Label>
               <Input
+                name="userFirstName"
                 id="userFirstName"
                 type="text"
                 placeholder="First name"
-                value={userFirstName}
-                onChange={(e) => setUserFirstName(e.target.value)}
+                value={formik.values.userFirstName}
+                onChange={formik.handleChange}
                 required
               />
             </div>
@@ -112,10 +122,11 @@ export const Register = () => {
               <Label htmlFor="userLastName">Last name</Label>
               <Input
                 id="userLastName"
+                name="userLastName"
                 type="text"
                 placeholder="Last name"
-                value={userLastName}
-                onChange={(e) => setUserLastName(e.target.value)}
+                value={formik.values.userLastName}
+                onChange={formik.handleChange}
                 required
               />
             </div>
