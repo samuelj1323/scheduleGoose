@@ -1,22 +1,22 @@
-import { DatabaseSync } from "node:sqlite";
+import Database from "better-sqlite3";
 
-const db = new DatabaseSync(":memory:");
+const db = new Database(":memory:");
 
 // Execute SQL statements from strings
 db.exec(`
-    CREATE TABLE users (
+    CREATE TABLE IF NOT EXISTS users (
         userId INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
         password TEXT,
         userFirstName TEXT,
         userLastName TEXT
     )
-    `);
+`);
 
 db.exec(`
-    CREATE TABLE posts (
-        postId INTEGERY PRIMARY KEY AUTOINCREMENT,
-        userId INGEGER,
+    CREATE TABLE IF NOT EXISTS posts (
+        postId INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER,
         postName TEXT,
         postContent TEXT,
         videoContent BLOB,
@@ -26,15 +26,6 @@ db.exec(`
         status TEXT,
         FOREIGN KEY (userId) references users(userId)
     )
-    `);
-
-db.exec(`
-    INSERT into users (username, password, userFirstName, userLastName) VALUES (
-    "samuelj1323",
-    "password123",
-    "Sam",
-    "Mahan"
-    )
-    `);
+`);
 
 export default db;

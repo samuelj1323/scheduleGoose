@@ -1,6 +1,7 @@
 import express from "express";
 import type { Request, Response } from "express";
 import cors from "cors";
+import authRoutes from "./routes/authRoutes.js";
 
 interface scheduledContent {
   id: number;
@@ -16,7 +17,6 @@ const app = express();
 const port = 3000;
 
 // Add middleware
-app.use(cors());
 app.use(express.json());
 
 const schedule: scheduledContent[] = [
@@ -35,6 +35,8 @@ const schedule: scheduledContent[] = [
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
+app.use("/auth", authRoutes);
 
 app.get("/api/v1/scheduledContent", (req: Request, res: Response) => {
   res.status(200).json({
