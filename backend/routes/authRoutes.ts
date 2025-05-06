@@ -14,8 +14,8 @@ interface User {
 }
 
 router.post("/register", (req, res) => {
-  const { username, password, firstName, lastName } = req.body;
-
+  const { username, password, userFirstName, userLastName } = req.body;
+  console.log(`userName: ${username} password: ${password}`);
   // hash the password
   const hashedPassword = bcrypt.hashSync(password, 8);
 
@@ -26,8 +26,8 @@ router.post("/register", (req, res) => {
     const results = insertUser.run(
       username,
       hashedPassword,
-      firstName,
-      lastName
+      userFirstName,
+      userLastName
     );
 
     const id = results.lastInsertRowid as number;

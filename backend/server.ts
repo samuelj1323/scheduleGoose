@@ -17,6 +17,7 @@ const app = express();
 const port = 3000;
 
 // Add middleware
+app.use(cors());
 app.use(express.json());
 
 const schedule: scheduledContent[] = [
