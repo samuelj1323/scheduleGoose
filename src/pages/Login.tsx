@@ -12,17 +12,25 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
+import { useFormik } from "formik";
+interface loginFormValues {
+  username: string;
+  password: string;
+}
 export const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit: (values: loginFormValues) => handleSubmit(values),
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values: loginFormValues) => {
     setLoading(true);
     setError("");
 
@@ -32,10 +40,7 @@ export const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+        body: JSON.stringify(values),
       });
 
       if (!response.ok) {
@@ -65,7 +70,7 @@ export const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={formik.handleSubmit} className="space-y-4">
             {error && (
               <div className="p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded">
                 {error}
@@ -77,8 +82,9 @@ export const Login = () => {
                 id="username"
                 type="text"
                 placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                name="username"
+                value={formik.values.username}
+                onChange={formik.handleChange}
                 required
               />
             </div>
@@ -87,9 +93,10 @@ export const Login = () => {
               <Input
                 id="password"
                 type="password"
+                name="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 required
               />
             </div>
