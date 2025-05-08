@@ -22,7 +22,8 @@ import {
 } from "../components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
 import ScheduledContent from "@/views/ScheduledContent";
-import { UploadSheet } from "@/components/Dashboard/UploadSheet";
+import { UploadSheet } from "@/components/dashboard/UploadSheet";
+import { useAuth } from "@/lib/auth";
 
 // Define the Upload type to match UploadsTable expected type
 interface Upload {
@@ -37,13 +38,21 @@ interface Upload {
 type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
 export const Dashboard: React.FC = () => {
+  const { token, userId } = useAuth();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["scheduledContent"],
+    queryKey: ["content"],
     queryFn: async () => {
+      const headers: HeadersInit = {};
+      if (token) {
+        headers.authorization = token;
+      }
       const response = await fetch(
-        "http://localhost:3000/api/v1/scheduledContent"
+        `http://localhost:3000/content?userId=${userId}`,
+        {
+          headers,
+        }
       );
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);

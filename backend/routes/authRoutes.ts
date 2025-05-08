@@ -35,7 +35,7 @@ router.post("/register", (req, res) => {
     const token = jwt.sign({ id }, process.env.JWT_SECRET || "secret", {
       expiresIn: "3h",
     });
-    res.json({ token });
+    res.json({ token, userId: id });
   } catch (error) {
     console.log(error);
     res.sendStatus(503);
@@ -64,7 +64,7 @@ router.post("/login", (req, res) => {
       { expiresIn: "3h" }
     );
 
-    res.json({ token });
+    res.json({ token, userId: user.userId });
   } catch (err) {
     console.log(err);
     res.sendStatus(503);

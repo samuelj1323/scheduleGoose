@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
-  login: (token: string) => void;
+  userId: string | null | undefined;
+  login: (token: string, userId: string) => void;
   logout: () => void;
   loading: boolean;
 }
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [userId, setUserId] = useState<string | null>();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -40,14 +42,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const isAuthenticated = !!token;
 
   // Login function - store token in localStorage
-  const login = (newToken: string) => {
+  const login = (newToken: string, newUserId: string) => {
     localStorage.setItem("token", newToken);
+    setUserId(newUserId);
     setToken(newToken);
   };
 
   // Logout function - remove token from localStorage
   const logout = () => {
     localStorage.removeItem("token");
+    setUserId(null);
     setToken(null);
     navigate("/login");
   };
@@ -76,6 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const value = {
     isAuthenticated,
+    userId,
     token,
     login,
     logout,

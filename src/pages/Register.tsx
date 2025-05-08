@@ -55,7 +55,7 @@ export const Register = () => {
       }
 
       const data = await response.json();
-      login(data.token);
+      login(data.token, data.userId);
       navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
