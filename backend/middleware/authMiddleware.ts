@@ -1,12 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   userId?: number;
-}
-
-interface JwtPayload {
-  id: number;
 }
 
 const authMiddleware = (
@@ -20,16 +16,22 @@ const authMiddleware = (
     return res.status(401).json({ message: "No token provided" });
   }
 
-  try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as JwtPayload;
+  if (!process.env.JWT_SECRET) {
+    return res
+      .status(500)
+      .json({ message: `${JSON.stringify(process.env.JWT_SECRET)}` });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "invalid token" });
+    }
+    if (!decoded || typeof decoded === "string") {
+      return res.status(401).json({ message: "invalid token format" });
+    }
     req.userId = decoded.id;
     next();
-  } catch (_) {
-    return res.status(401).json({ message: "invalid token" });
-  }
+  });
 };
 
 export default authMiddleware;

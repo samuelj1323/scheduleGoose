@@ -4,7 +4,8 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import contentRoutes from "./routes/contentRoutes.js";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 interface scheduledContent {
   id: number;
   title: string;

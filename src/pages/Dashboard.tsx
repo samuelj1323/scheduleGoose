@@ -38,7 +38,7 @@ interface Upload {
 type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 
 export const Dashboard: React.FC = () => {
-  const { token, userId } = useAuth();
+  const { token } = useAuth();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { data, isLoading, error } = useQuery({
@@ -48,12 +48,9 @@ export const Dashboard: React.FC = () => {
       if (token) {
         headers.authorization = token;
       }
-      const response = await fetch(
-        `http://localhost:3000/content?userId=${userId}`,
-        {
-          headers,
-        }
-      );
+      const response = await fetch(`http://localhost:3000/content`, {
+        headers,
+      });
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
       }
