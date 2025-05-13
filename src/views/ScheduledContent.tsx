@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
-import { ContentItem } from "@/components/Dashboard/ContentItem";
+import { ContentItem } from "@/components/dashboard/ContentItem";
 import { Upload } from "@/types/Upload";
 
 interface ScheduledContentProps {
@@ -13,6 +13,7 @@ const ScheduledContent = ({ data }: ScheduledContentProps) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
+          {!data?.content?.length && "There is no scheduled content"}
           {data?.content.map((item: Upload) => (
             <ContentItem
               key={item.id}

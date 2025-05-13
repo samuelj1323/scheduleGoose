@@ -25,4 +25,37 @@ router.get("/", (req: AuthRequest, res) => {
   }
 });
 
+router.post("/", (req: AuthRequest, res) => {
+  const userId = req.userId;
+  const {
+    postName,
+    postContent,
+    videoContent,
+    imageContent,
+    createdDate,
+    status,
+  } = req.body;
+  const insertQuery = db.prepare(
+    `INSERT INTO posts WHERE userId == ? (
+    userId, 
+    postName, 
+    postContent, 
+    videoContent,
+    imageContent,
+    createdDate, 
+    status) VALUES (?, ?, ?, ?, ?, ?, ?)`
+  );
+  const result = insertQuery.run(
+    userId,
+    userId,
+    postName,
+    videoContent,
+    imageContent,
+    postContent,
+    createdDate,
+    status
+  );
+  res.json({ id: result.lastInsertRowid });
+});
+
 export default router;
