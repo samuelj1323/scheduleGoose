@@ -29,30 +29,43 @@ router.post("/", (req: AuthRequest, res) => {
   const userId = req.userId;
   const {
     postName,
-    postContent,
-    videoContent,
-    imageContent,
+    description,
+    file,
+    publishDate,
     createdDate,
+    platform,
     status,
   } = req.body;
   const insertQuery = db.prepare(
     `INSERT INTO posts WHERE userId == ? (
-    userId, 
-    postName, 
-    postContent, 
-    videoContent,
-    imageContent,
-    createdDate, 
-    status) VALUES (?, ?, ?, ?, ?, ?, ?)`
+      userId,
+      postName,
+      description, 
+      file,
+      publishDate,
+      createdDate,
+      platform,
+      status,
+    ) VALUES (
+      ?,
+      ?,
+      ?, 
+      ?,
+      ?,
+      ?,
+      ?,
+      ?
+    ) `
   );
   const result = insertQuery.run(
     userId,
     userId,
     postName,
-    videoContent,
-    imageContent,
-    postContent,
+    description,
+    file,
+    publishDate,
     createdDate,
+    platform,
     status
   );
   res.json({ id: result.lastInsertRowid });

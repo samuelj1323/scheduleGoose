@@ -24,6 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 import ScheduledContent from "@/views/ScheduledContent";
 import { UploadSheet } from "@/components/dashboard/UploadSheet";
 import { useAuth } from "@/lib/auth";
+import { getContentData } from "@/lib/apiPromises";
 
 // Define the Upload type to match UploadsTable expected type
 interface Upload {
@@ -43,20 +44,8 @@ export const Dashboard: React.FC = () => {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["content"],
-    queryFn: async () => {
-      const headers: HeadersInit = {};
-      if (token) {
-        headers.authorization = token;
-      }
-      const response = await fetch(`http://localhost:3000/content`, {
-        headers,
-      });
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-      return response.json();
-    },
-    refetchInterval: 1000,
+    queryFn: () => getContentData(token),
+    refetchInterval: 60000,
   });
 
   const recentUploads: Upload[] = [

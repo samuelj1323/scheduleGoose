@@ -18,11 +18,11 @@ db.exec(`
         postId INTEGER PRIMARY KEY AUTOINCREMENT,
         userId INTEGER,
         postName TEXT,
-        postContent TEXT,
-        videoContent BLOB,
-        imageContent BLOB,
-        postDate DATE,
+        description TEXT, 
+        file BLOB,
+        publishDate DATE,
         createdDate DATE,
+        platform TEXT,
         status TEXT,
         FOREIGN KEY (userId) references users(userId)
     )

@@ -21,6 +21,18 @@ import {
 } from "../ui/select";
 import { Datepicker } from "../ui/Datepicker";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/lib/auth";
+import { postContentData } from "@/lib/apiPromises";
+
+export type scheduledContent = {
+  postName: string;
+  description: string;
+  file: File | null;
+  publishDate: Date;
+  createdDate: Date;
+  platform: string;
+  status: string;
+};
 export const UploadSheet = ({
   isSheetOpen,
   setIsSheetOpen,
@@ -28,40 +40,24 @@ export const UploadSheet = ({
   isSheetOpen: boolean;
   setIsSheetOpen: (isSheetOpen: boolean) => void;
 }) => {
-  interface scheduledContent {
-    title: string;
-    platform: string;
-    status: string;
-    description: string;
-    publishDate: Date;
-    file: File | null;
-  }
+  const { token } = useAuth();
+
+  const scheduledContentMutation = useMutation({
+    mutationFn: (values: scheduledContent) => postContentData(values, token),
+  });
+
   const formik = useFormik({
     initialValues: {
-      status: "scheduled",
-      platform: "",
-      title: "",
+      postName: "",
       description: "",
-      publishDate: new Date(),
       file: null,
+      publishDate: new Date(),
+      createdDate: new Date(),
+      platform: "",
+      status: "",
     },
     onSubmit: (values: scheduledContent) => {
       scheduledContentMutation.mutate(values);
-    },
-  });
-
-  const scheduledContentMutation = useMutation({
-    mutationFn: (values: scheduledContent) => {
-      return fetch("http://localhost:3000/api/v1/scheduledContent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-    },
-    onSuccess: () => {
-      setIsSheetOpen(false);
     },
   });
   return (
@@ -82,11 +78,11 @@ export const UploadSheet = ({
         </SheetHeader>
         <div className="p-6">
           <form onSubmit={formik.handleSubmit}>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="postName">Title</Label>
             <Input
               className="mb-4"
               type="text"
-              name="title"
+              name="postName"
               placeholder="Title"
               onChange={formik.handleChange}
             />
