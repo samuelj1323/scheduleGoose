@@ -1,9 +1,20 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { ContentItem } from "@/components/dashboard/ContentItem";
-import { Upload } from "@/types/Upload";
+
+export interface Post {
+  postId: number;
+  userId: number;
+  postName: string;
+  description: string;
+  file: Buffer | null;
+  publishDate: string | Date;
+  createdDate: string | Date;
+  platform: string;
+  status: string;
+}
 
 interface ScheduledContentProps {
-  data: { content: Upload[] };
+  data: { content: Post[] };
 }
 const ScheduledContent = ({ data }: ScheduledContentProps) => {
   return (
@@ -14,12 +25,8 @@ const ScheduledContent = ({ data }: ScheduledContentProps) => {
       <CardContent>
         <div className="space-y-3">
           {!data?.content?.length && "There is no scheduled content"}
-          {data?.content.map((item: Upload) => (
-            <ContentItem
-              key={item.id}
-              title={item.title || (item.content as string)}
-              type={item.type}
-            />
+          {data?.content.map((item: Post) => (
+            <ContentItem key={item.postId} {...item} />
           ))}
         </div>
       </CardContent>

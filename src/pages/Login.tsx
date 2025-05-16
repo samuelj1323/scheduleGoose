@@ -53,7 +53,6 @@ export const Login = () => {
       navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
       setLoading(false);
     }
   };

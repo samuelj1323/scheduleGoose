@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Datepicker } from "../ui/Datepicker";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { postContentData } from "@/lib/apiPromises";
 
@@ -39,11 +39,17 @@ export const UploadSheet = ({
 }: {
   isSheetOpen: boolean;
   setIsSheetOpen: (isSheetOpen: boolean) => void;
+  values: scheduledContent;
 }) => {
   const { token } = useAuth();
+  const queryClient = useQueryClient();
 
   const scheduledContentMutation = useMutation({
     mutationFn: (values: scheduledContent) => postContentData(values, token),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["content"] });
+      setIsSheetOpen(false);
+    },
   });
 
   const formik = useFormik({
@@ -54,12 +60,20 @@ export const UploadSheet = ({
       publishDate: new Date(),
       createdDate: new Date(),
       platform: "",
-      status: "",
+      status: "pending",
     },
     onSubmit: (values: scheduledContent) => {
       scheduledContentMutation.mutate(values);
     },
   });
+
+  // Custom handler for file input
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      formik.setFieldValue("file", event.target.files[0]);
+    }
+  };
+
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger asChild>
@@ -90,7 +104,7 @@ export const UploadSheet = ({
               className="mb-4 w-full"
               name="file"
               label="Upload a file"
-              onChange={formik.handleChange}
+              onChange={handleFileChange}
               accept=".mov, .mp4"
             />
             <Label htmlFor="description">Description</Label>

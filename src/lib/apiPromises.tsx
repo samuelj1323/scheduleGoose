@@ -25,13 +25,30 @@ export const postContentData = async (
   if (token) {
     headers.authorization = token;
   }
+
+  // Use FormData for file uploads
+  const formData = new FormData();
+
+  // Add text fields
+  formData.append("postName", values.postName);
+  formData.append("description", values.description);
+  formData.append("publishDate", values.publishDate.toISOString());
+  formData.append("createdDate", values.createdDate.toISOString());
+  formData.append("platform", values.platform);
+  formData.append("status", values.status || "pending");
+
+  // Add file if it exists
+  if (values.file) {
+    formData.append("file", values.file);
+  }
+
   const response = await fetch("http://localhost:3000/content", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       ...headers,
+      // Don't set Content-Type as it's automatically set with the correct boundary for FormData
     },
-    body: JSON.stringify(values),
+    body: formData,
   });
 
   if (!response.ok) {

@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 
-const db = new Database(":memory:");
+const db = new Database("./ScheduleGoose.db");
 
 // Execute SQL statements from strings
 db.exec(`

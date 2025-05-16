@@ -1,15 +1,15 @@
+import { Post } from "@/pages/Dashboard/ScheduledContent";
 import React, { ReactNode } from "react";
 
-interface ContentItemProps {
-  type: "video" | "blog" | "audio";
-  title: string;
-  className?: string;
-}
-
-export const ContentItem: React.FC<ContentItemProps> = ({
-  type,
-  title,
-  className = "",
+export const ContentItem: React.FC<Post> = ({
+  postId,
+  postName,
+  description,
+  file,
+  publishDate,
+  createdDate,
+  platform,
+  status,
 }) => {
   const iconMap: Record<string, ReactNode> = {
     video: (
@@ -62,26 +62,20 @@ export const ContentItem: React.FC<ContentItemProps> = ({
     ),
   };
 
-  const typeText = {
-    video: "Video",
-    blog: "Blog Post",
-    audio: "Audio",
-  };
-
   return (
     <div
-      className={`py-3 border-b border-gray-100 dark:border-b dark:border-white flex items-center justify-between ${className} last:border-b-0`}
+      className={`py-3 border-b border-gray-100 dark:border-b dark:border-white flex items-center justify-between  last:border-b-0`}
     >
       <div className="flex items-center">
         <div className="w-6 h-6 flex items-center justify-center text-gray-600 dark:text-gray-400 mr-3">
-          {iconMap[type]}
+          {iconMap["video"]}
         </div>
         <div>
           <div className="font-medium text-gray-800 dark:text-gray-200">
-            {typeText[type]}
+            {postName}
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {title}
+            {description}
           </div>
         </div>
       </div>
