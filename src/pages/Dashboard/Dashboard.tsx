@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ScheduledContent from "@/pages/Dashboard/ScheduledContent";
-import { UploadSheet } from "@/components/dashboard/UploadSheet";
+import { UploadSheet } from "@/components/UploadSheet";
 import { useAuth } from "@/lib/auth";
 import { getContentData } from "@/lib/apiPromises";
 

@@ -6,20 +6,20 @@ import {
   SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "../ui/Button";
+import { Button } from "./ui/Button";
 import { useFormik } from "formik";
-import { FileUpload } from "../ui/FileUpload";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
+import { FileUpload } from "./ui/FileUpload";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Datepicker } from "../ui/Datepicker";
+} from "./ui/select";
+import { Datepicker } from "./ui/Datepicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { postContentData } from "@/lib/apiPromises";
@@ -128,12 +128,13 @@ export const UploadSheet = ({
             <Label htmlFor="publishDate">Publish Date</Label>
             <Datepicker
               name="publishDate"
-              onChange={formik.handleChange}
-              value={
-                formik.values.publishDate
-                  ? new Date(formik.values.publishDate)
-                  : new Date()
-              }
+              onChange={(event) => {
+                formik.setFieldValue(
+                  "publishDate",
+                  new Date(event.target.value)
+                );
+              }}
+              value={`${formik.values.publishDate}`}
             />
             <Button type="submit" className="mt-4">
               Upload

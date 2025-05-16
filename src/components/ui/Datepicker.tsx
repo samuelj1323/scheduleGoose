@@ -20,14 +20,17 @@ interface DatepickerProps {
 }
 
 export function Datepicker({ name, onChange, value }: DatepickerProps) {
+  const [open, setOpen] = React.useState(false);
+
   const handleDateChange = (date: Date) => {
     onChange({
       target: { name, value: date.toISOString() },
     } as React.ChangeEvent<HTMLInputElement>);
+    setOpen(false); // Close the popover after date selection
   };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -36,7 +39,7 @@ export function Datepicker({ name, onChange, value }: DatepickerProps) {
             !value && "text-muted-foreground"
           )}
         >
-          <CalendarIcon />
+          <CalendarIcon className="mr-2 h-4 w-4" />
           {value ? format(value, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>

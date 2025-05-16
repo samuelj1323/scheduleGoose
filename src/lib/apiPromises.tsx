@@ -1,4 +1,4 @@
-import { scheduledContent } from "@/components/dashboard/UploadSheet";
+import { scheduledContent } from "@/components/UploadSheet";
 
 export const getContentData = async (token: string | null) => {
   const headers: HeadersInit = {};

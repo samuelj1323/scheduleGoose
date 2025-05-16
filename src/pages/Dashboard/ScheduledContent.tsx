@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
-import { ContentItem } from "@/components/dashboard/ContentItem";
+import { ContentItem } from "@/components/ContentItem";
 
 export interface Post {
   postId: number;
