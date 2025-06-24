@@ -134,7 +134,7 @@ export const UploadSheet = ({
                   new Date(event.target.value)
                 );
               }}
-              value={`${formik.values.publishDate}`}
+              value={formik.values.publishDate}
             />
             <Button type="submit" className="mt-4">
               Upload
