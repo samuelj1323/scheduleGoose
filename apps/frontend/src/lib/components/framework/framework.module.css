@@ -21,10 +21,11 @@
   }
 
   .navGroup {
-    width: 100px;
+    width: 200px;
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     .link {
       color: black;
       text-decoration: none;

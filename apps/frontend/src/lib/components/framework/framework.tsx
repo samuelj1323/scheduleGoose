@@ -8,7 +8,7 @@ const Framework = () => {
         <h3>Schedule Goose</h3>
         <span className={styles.navGroup}>
           <Link className={styles.link} to="/">
-            Home
+            Schedule
           </Link>{" "}
           <Link className={styles.link} to="/posts">
             Posts

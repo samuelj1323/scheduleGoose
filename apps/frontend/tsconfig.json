@@ -14,6 +14,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path aliases */
+    "baseUrl": ".",
+    "paths": {
+      "$hooks/*": ["src/lib/hooks/*"],
+      "$utils/*": ["src/lib/utils/*"],
+      "$lib/*": ["src/lib/*"],
+      "$routes/*": ["src/routes/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -23,4 +32,3 @@
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
-
