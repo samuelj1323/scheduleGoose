@@ -1,6 +1,57 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.dateRow {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.dateColumn {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+.dateItem {
+  display: flex;
+  align-items: flex-start;
+  min-height: fit-content;
+}
+
+.dateLabel {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
 .carouselContainer {
   display: flex;
   overflow-y: auto;
   overflow-x: hidden;
   flex-direction: column;
+  gap: 20px;
+  flex: 1;
+
+  padding: 20px;
+  min-height: fit-content;
+}
+
+.dateGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

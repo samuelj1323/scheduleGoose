@@ -26,7 +26,7 @@ function Index() {
       href: "https://www.w3schools.com/html/horse.mp3",
       thumbnail: "https://www.w3schools.com/html/img_girl.jpg",
       createdTime: new Date("2024-06-02T13:30:00Z"),
-      scheduledTime: new Date("2024-06-06T10:30:00Z"),
+      scheduledTime: new Date("2024-06-05T14:30:00Z"),
     },
     {
       type: "image",
@@ -35,7 +35,7 @@ function Index() {
       author: "Bob Johnson",
       href: "https://www.w3schools.com/html/img_chania.jpg",
       createdTime: new Date("2024-06-03T15:00:00Z"),
-      scheduledTime: new Date("2024-06-07T11:00:00Z"),
+      scheduledTime: new Date("2024-06-05T16:00:00Z"),
     },
     {
       type: "text",
@@ -44,12 +44,21 @@ function Index() {
       author: "Alice Williams",
       content: "This is a dummy text content for the text card example.",
       createdTime: new Date("2024-06-04T17:00:00Z"),
-      scheduledTime: new Date("2024-06-08T08:00:00Z"),
+      scheduledTime: new Date("2024-06-06T08:00:00Z"),
+    },
+    {
+      type: "video",
+      title: "Another Video",
+      subTitle: "Second video for same date",
+      author: "John Doe",
+      href: "https://www.w3schools.com/html/mov_bbb.mp4",
+      thumbnail: "https://www.w3schools.com/html/pic_trulli.jpg",
+      createdTime: new Date("2024-06-01T12:00:00Z"),
+      scheduledTime: new Date("2024-06-06T10:00:00Z"),
     },
   ];
   return (
     <div className={styles.container}>
-      <h3>Welcome Schedule!</h3>
       <ContentCarousel scheduledContent={dummyData} />
     </div>
   );

@@ -3,6 +3,10 @@
   --primary: rgb(96, 84, 143);
 }
 
+* {
+  font-family: "Red Hat Display", sans-serif;
+}
+
 html,
 body {
   height: 100%;
