@@ -1,4 +1,5 @@
 import styles from "./framework.module.css";
+import Schedule from "$lib/components/schedule/schedule";
 
 import { Link, Outlet } from "@tanstack/react-router";
 const Framework = () => {
@@ -19,7 +20,7 @@ const Framework = () => {
         </span>
       </div>
       <div id="schedule" className={styles.schedule}>
-        Schedule
+        <Schedule />
       </div>
       <div id="content" className={styles.content}>
         <Outlet />

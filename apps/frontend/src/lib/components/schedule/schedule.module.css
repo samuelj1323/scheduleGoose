@@ -1,0 +1,78 @@
+.scheduleContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.calendarWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dateInput {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: inherit;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dateInput:hover {
+  border-color: #60548f;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #60548f;
+  box-shadow: 0 0 0 3px rgba(96, 84, 143, 0.1);
+}
+
+.selectedDate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.dateLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dateValue {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .scheduleContainer {
+    display: none;
+  }
+}
