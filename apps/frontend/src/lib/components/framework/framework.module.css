@@ -17,15 +17,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right: 2px;
 
   h3 {
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
   }
 
   .navGroup {
     width: 200px;
-    padding: 10px;
+    padding: 10px 40px 10px 10px;
     display: flex;
     justify-content: space-between;
     gap: 10px;
