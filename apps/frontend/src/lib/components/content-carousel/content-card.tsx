@@ -1,4 +1,4 @@
-import { IContentCard } from "$lib/types";
+import { IContentCard } from "@schedulegoose/types";
 import styles from "./contentCard.module.css";
 
 const ContentCard = (props: IContentCard) => {

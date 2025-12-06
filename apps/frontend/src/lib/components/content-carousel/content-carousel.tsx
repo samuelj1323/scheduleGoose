@@ -1,5 +1,5 @@
 import ContentCard from "./content-card";
-import { IContentCard } from "$lib/types";
+import { IContentCard } from "@schedulegoose/types";
 import styles from "./contentCarousel.module.css";
 
 type ContentCarouselProps = {
