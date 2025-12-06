@@ -1,10 +1,10 @@
 export type IContentCard =
-  | contentVideoCard
-  | contentAudioCard
-  | contentImageCard
-  | contentTextCard;
+  | ContentVideoCard
+  | ContentAudioCard
+  | ContentImageCard
+  | ContentTextCard;
 
-type contentCard = {
+export type ContentCard = {
   title: string;
   subTitle: string;
   author: string;
@@ -12,21 +12,25 @@ type contentCard = {
   scheduledTime: Date;
 };
 
-export type contentVideoCard = contentCard & {
+export type ContentVideoCard = ContentCard & {
   type: "video";
   href: string;
   thumbnail: string;
 };
-export type contentAudioCard = contentCard & {
+
+export type ContentAudioCard = ContentCard & {
   type: "audio";
   href: string;
   thumbnail: string;
 };
-export type contentImageCard = contentCard & {
+
+export type ContentImageCard = ContentCard & {
   type: "image";
   href: string;
 };
-export type contentTextCard = contentCard & {
+
+export type ContentTextCard = ContentCard & {
   type: "text";
   content: string;
 };
+

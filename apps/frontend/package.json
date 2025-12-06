@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@schedulegoose/types": "workspace:^",
     "@tanstack/react-form": "^1.23.8",
     "@tanstack/react-router": "^1.134.15",
     "@tanstack/react-router-devtools": "^1.134.15",

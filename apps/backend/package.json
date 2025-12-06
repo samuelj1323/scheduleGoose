@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.8.0",
+    "@schedulegoose/types": "workspace:^",
     "hono": "^4.0.0",
     "zod": "^4.1.12"
   },
