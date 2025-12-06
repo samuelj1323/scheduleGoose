@@ -58,30 +58,30 @@ const contentStore: IContentCard[] = [
   },
 ];
 
-app.get('/', (c) => {
-  return c.json({ message: 'Schedule Goose API is running!' })
-})
+const routes = app
+  .get('/', (c) => {
+    return c.json({ message: 'Schedule Goose API is running!' })
+  })
+  .get('/api/health', (c) => {
+    return c.json({ status: 'ok' })
+  })
+  .get('/api/content', (c) => {
+    return c.json(contentStore)
+  })
+  .post('/api/content', async (c) => {
+    const body = await c.req.json() as any;
+    
+    const newContent: IContentCard = {
+      ...body,
+      createdTime: new Date(body.createdTime),
+      scheduledTime: new Date(body.scheduledTime),
+    };
 
-app.get('/api/health', (c) => {
-  return c.json({ status: 'ok' })
-})
+    contentStore.push(newContent);
+    return c.json(newContent, 201);
+  })
 
-app.get('/api/content', (c) => {
-  return c.json(contentStore)
-})
-
-app.post('/api/content', async (c) => {
-  const body = await c.req.json() as any;
-  
-  const newContent: IContentCard = {
-    ...body,
-    createdTime: new Date(body.createdTime),
-    scheduledTime: new Date(body.scheduledTime),
-  };
-
-  contentStore.push(newContent);
-  return c.json(newContent, 201);
-})
+export type AppType = typeof routes
 
 const port = 8787
 console.log(`Server is running on port ${port}`)

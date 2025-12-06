@@ -12,11 +12,13 @@
     "@tanstack/react-form": "^1.23.8",
     "@tanstack/react-router": "^1.134.15",
     "@tanstack/react-router-devtools": "^1.134.15",
+    "hono": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@schedulegoose/backend": "workspace:^",
     "@tanstack/router-plugin": "^1.134.15",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
