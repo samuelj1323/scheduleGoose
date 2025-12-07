@@ -13,6 +13,9 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      scope: ["https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtube.readonly"],
+      accessType: "offline", // Ensure we get a refresh token
+      prompt: "consent", // Force consent to get refresh token on re-login
     },
   },
   trustedOrigins: ["http://localhost:3000"], 

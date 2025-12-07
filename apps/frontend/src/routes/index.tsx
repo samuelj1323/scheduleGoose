@@ -19,16 +19,6 @@ export const Route = createFileRoute("/")({
     }
   },
   loader: async () => {
-    // We need to pass credentials (cookies) for the API to recognize the session
-    // Hono client (hono/client) uses fetch under the hood. 
-    // We should configure the client to include credentials, or manually pass headers if using a different fetcher.
-    // The default hc client might not include credentials automatically in all environments.
-    // Let's ensure the backend CORS allows credentials (which we did).
-    
-    // Note: client.api.content.$get() is a wrapper around fetch.
-    // We might need to recreate the client with headers if it doesn't support credentials by default,
-    // but usually browsers handle cookies automatically for same-domain or properly CORS-configured cross-domain requests.
-    
     const response = await client.api.content.$get();
     if (!response.ok) {
       throw new Error('Failed to fetch content');
@@ -45,20 +35,52 @@ export const Route = createFileRoute("/")({
 function Index() {
   const content = Route.useLoaderData();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const session = authClient.useSession(); // Hydrate session in UI if needed
+  const [importing, setImporting] = useState(false);
+  const session = authClient.useSession(); 
 
   const filteredContent = content.filter((item) => {
-    if (!selectedDate) return true; // Show all if no date selected
+    if (!selectedDate) return true; 
     const itemDate = item.scheduledTime.toISOString().split("T")[0];
     const filterDate = selectedDate.toISOString().split("T")[0];
     return itemDate === filterDate;
   });
+
+  const handleImport = async () => {
+      setImporting(true);
+      try {
+          const res = await client.api.import.youtube.$post();
+          const data = await res.json();
+          if (res.ok) {
+            // Check if success response
+            if ('imported' in data) {
+                alert(`Successfully imported ${data.imported} videos!`);
+                window.location.reload(); 
+            } else {
+                 alert("Import completed but no count returned.");
+            }
+          } else {
+              alert("Failed to import: " + (data as any).error);
+          }
+      } catch (e) {
+          console.error(e);
+          alert("Error importing videos");
+      } finally {
+          setImporting(false);
+      }
+  };
 
   return (
     <div className={styles.container}>
       <header style={{ padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2>ScheduleGoose</h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+             <button 
+                onClick={handleImport}
+                disabled={importing}
+                style={{ marginRight: 20 }}
+             >
+                {importing ? 'Importing...' : 'Sync YouTube Videos'}
+             </button>
              {session.data?.user.image && (
                  <img src={session.data.user.image} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%' }} />
              )}

@@ -7,6 +7,9 @@ import { content, user } from './db/schema.js'
 import { eq, desc } from 'drizzle-orm'
 import { auth } from './auth.js'
 import { analytics } from './routes/analytics.js'
+import { publish } from './routes/publish.js'
+import { thumbnail } from './routes/thumbnail.js'
+import { importRoute } from './routes/import.js'
 
 const app = new Hono()
 
@@ -23,9 +26,6 @@ app.use('/*', cors({
 app.on(["POST", "GET"], "/api/auth/**", (c) => {
   return auth.handler(c.req.raw);
 });
-
-// Mount Analytics
-app.route('/api/analytics', analytics);
 
 // Temporary: Create a default user if none exists (for dev simplicity until Auth is built)
 // This ensures we always have a userId to attach to content
@@ -47,6 +47,7 @@ async function getOrCreateDefaultUser() {
   return newUser;
 }
 
+// Define routes in a single chain to ensure AppType inference captures everything
 const routes = app
   .get('/', (c) => {
     return c.json({ message: 'Schedule Goose API is running!' })
@@ -54,6 +55,10 @@ const routes = app
   .get('/api/health', (c) => {
     return c.json({ status: 'ok' })
   })
+  .route('/api/analytics', analytics)
+  .route('/api/publish', publish)
+  .route('/api/thumbnail', thumbnail)
+  .route('/api/import', importRoute)
   .get('/api/content', async (c) => {
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
     
@@ -75,6 +80,8 @@ const routes = app
     // This is a "temporary adapter" pattern until we update frontend types to match DB schema exactly
     const mappedContent = result.map(row => {
       const base = {
+        id: row.id,
+        status: (row as any).status, // Add status if available in schema/query
         title: row.title,
         subTitle: (row.metadata as any).subTitle || '', // Fallback
         author: row.authorName || 'Unknown Goose',
@@ -136,6 +143,7 @@ const routes = app
 export type AppType = typeof routes
 
 const port = 8787
+// Restart trigger
 console.log(`Server is running on port ${port}`)
 
 serve({

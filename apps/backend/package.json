@@ -17,6 +17,7 @@
     "better-auth": "^1.4.5",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.0",
+    "googleapis": "^167.0.0",
     "hono": "^4.0.0",
     "postgres": "^3.4.7",
     "simple-statistics": "^7.8.8",

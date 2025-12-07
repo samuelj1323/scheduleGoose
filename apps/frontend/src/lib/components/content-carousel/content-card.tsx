@@ -1,7 +1,14 @@
 import { IContentCard } from "@schedulegoose/types";
 import styles from "./contentCard.module.css";
+import { hc } from 'hono/client';
+import type { AppType } from '@schedulegoose/backend';
+import { useState } from 'react';
+
+const client = hc<AppType>('/');
 
 const ContentCard = (props: IContentCard) => {
+  const [publishing, setPublishing] = useState(false);
+
   const formatDate = (date: Date) => {
     return date.toLocaleDateString(undefined, {
       month: "short",
@@ -33,6 +40,28 @@ const ContentCard = (props: IContentCard) => {
         return styles.typeText;
       default:
         return "";
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!props.id) return;
+    setPublishing(true);
+    try {
+        const res = await client.api.publish[':contentId'].$post({
+            param: { contentId: props.id }
+        });
+        if (res.ok) {
+            alert("Published successfully!");
+            window.location.reload(); // Simple refresh to update status
+        } else {
+            const err = await res.json();
+            alert("Failed to publish: " + (err as any).error);
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Error publishing");
+    } finally {
+        setPublishing(false);
     }
   };
 
@@ -87,6 +116,11 @@ const ContentCard = (props: IContentCard) => {
               <span className={`${styles.typeBadge} ${getTypeColor()}`}>
                 {getTypeLabel()}
               </span>
+              {props.status && (
+                 <span style={{ marginLeft: 'auto', fontSize: '0.8em', textTransform: 'uppercase', color: '#666' }}>
+                    {props.status}
+                 </span>
+              )}
             </div>
             <h3 className={styles.title}>{props.title}</h3>
             <p className={styles.subtitle}>{props.subTitle}</p>
@@ -110,6 +144,38 @@ const ContentCard = (props: IContentCard) => {
                 {formatTime(props.scheduledTime)}
               </span>
             </div>
+
+            {props.type === 'video' && props.views !== undefined && (
+                 <div className={styles.metaItem} style={{ borderTop: '1px solid #eee', paddingTop: 8, marginTop: 8 }}>
+                    <div style={{ display: 'flex', gap: 15, width: '100%', fontSize: '0.9em', color: '#555' }}>
+                        <span>👁️ {props.views}</span>
+                        <span>👍 {props.likes}</span>
+                        <span>💬 {props.commentCount}</span>
+                    </div>
+                </div>
+            )}
+            
+            {/* Publish Action */}
+            {props.status !== 'published' && props.type === 'video' && props.id && (
+                <div className={styles.metaItem} style={{ width: '100%', marginTop: 10 }}>
+                    <button 
+                        onClick={handlePublish} 
+                        disabled={publishing}
+                        style={{
+                            width: '100%',
+                            padding: '8px',
+                            backgroundColor: '#ff0000',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        {publishing ? 'Uploading to YouTube...' : 'Publish to YouTube'}
+                    </button>
+                </div>
+            )}
           </div>
         </div>
       </div>

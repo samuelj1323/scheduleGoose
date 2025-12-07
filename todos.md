@@ -32,9 +32,10 @@
 - [x] **Performance Predictor**
   - [x] Connect to AI service (e.g., OpenAI) to score titles/content.
   - [x] Implement feedback loop from analytics.
-- [ ] **Thumbnail Generator**
-  - [ ] Integrate image generation API (DALL-E 3 / Stability).
-  - [ ] Create templates/styles for generation.
-- [ ] **Publishing & Analytics**
-  - [ ] Add direct publishing integrations (YouTube, Twitter APIs).
+
+- [x] **Thumbnail Generator**
+  - [x] Integrate image generation API (DALL-E 3 / Stability).
+  - [x] Create templates/styles for generation.
+- [x] **Publishing & Analytics**
+  - [x] Add direct publishing integrations (YouTube, Twitter APIs).
   - [ ] Build analytics dashboard to track actual performance.

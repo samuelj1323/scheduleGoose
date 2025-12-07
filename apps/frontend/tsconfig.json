@@ -17,6 +17,8 @@
     /* Path aliases */
     "baseUrl": ".",
     "paths": {
+      "@schedulegoose/types": ["../../packages/types/src/index.ts"],
+      "@schedulegoose/backend": ["../../apps/backend/src/index.ts"],
       "$hooks/*": ["src/lib/hooks/*"],
       "$utils/*": ["src/lib/utils/*"],
       "$lib/*": ["src/lib/*"],
