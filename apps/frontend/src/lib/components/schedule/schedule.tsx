@@ -1,15 +1,22 @@
-import { useState } from "react";
 import styles from "./schedule.module.css";
 
-const Schedule = () => {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+interface ScheduleProps {
+  selectedDate: Date | undefined;
+  onDateChange: (date: Date | undefined) => void;
+}
 
+const Schedule = ({ selectedDate, onDateChange }: ScheduleProps) => {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.value) {
+      onDateChange(undefined);
+      return;
+    }
     const date = new Date(e.target.value);
-    setSelectedDate(date);
+    onDateChange(date);
   };
 
-  const formatSelectedDate = (date: Date) => {
+  const formatSelectedDate = (date: Date | undefined) => {
+    if (!date) return "";
     return date.toLocaleDateString(undefined, {
       weekday: "long",
       year: "numeric",
@@ -35,7 +42,7 @@ const Schedule = () => {
         <input
           id="date-picker"
           type="date"
-          value={selectedDate.toISOString().split("T")[0]}
+          value={selectedDate?.toISOString().split("T")[0]}
           onChange={handleDateChange}
           className={styles.dateInput}
           min={getTodayDateString()}
