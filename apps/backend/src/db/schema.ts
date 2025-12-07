@@ -22,14 +22,14 @@ export const session = pgTable("session", {
   updatedAt: timestamp("updated_at").notNull(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
-  userId: text("user_id").notNull().references(() => users.id),
+  userId: text("user_id").notNull().references(() => user.id),
 });
 
 export const account = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
-  userId: text("user_id").notNull().references(() => users.id),
+  userId: text("user_id").notNull().references(() => user.id),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
@@ -59,4 +59,11 @@ export const content = pgTable('content', {
   createdTime: timestamp('created_time').defaultNow().notNull(),
   type: contentTypeEnum('type').notNull(),
   metadata: jsonb('metadata').$type<Omit<IContentCard, 'title' | 'scheduledTime' | 'createdTime' | 'type'>>().notNull(),
+});
+
+export const analyticsSnapshot = pgTable('analytics_snapshot', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  contentId: uuid('content_id').references(() => content.id, { onDelete: 'cascade' }).notNull(),
+  timestamp: timestamp('timestamp').defaultNow().notNull(),
+  metrics: jsonb('metrics').notNull(), // Flexible for different platforms
 });

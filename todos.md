@@ -29,9 +29,9 @@
   - [x] Connect date picker to content filtering.
 
 ## AI & Advanced Features (The "Goose" Layer)
-- [ ] **Performance Predictor**
-  - [ ] Connect to AI service (e.g., OpenAI) to score titles/content.
-  - [ ] Implement feedback loop from analytics.
+- [x] **Performance Predictor**
+  - [x] Connect to AI service (e.g., OpenAI) to score titles/content.
+  - [x] Implement feedback loop from analytics.
 - [ ] **Thumbnail Generator**
   - [ ] Integrate image generation API (DALL-E 3 / Stability).
   - [ ] Create templates/styles for generation.

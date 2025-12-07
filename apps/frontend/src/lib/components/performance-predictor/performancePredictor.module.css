@@ -1,7 +1,128 @@
 .container {
+  background: white;
   padding: 20px;
-  background-color: #e8f4f8;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   margin-top: 20px;
+  border: 1px solid #eaeaea;
 }
 
+.subtitle {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.form {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.input, .select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.input:focus, .select:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.button:hover {
+  background-color: #0051a2;
+}
+
+.button:disabled {
+  background-color: #ccc;
+}
+
+.result {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.scoreHeader {
+  display: flex;
+  background: #fff;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  justify-content: space-around;
+}
+
+.scoreBadge, .predictionBadge {
+  text-align: center;
+}
+
+.scoreBadge span, .predictionBadge span {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.scoreBadge strong {
+  font-size: 1.5rem;
+  color: #0070f3;
+}
+
+.predictionBadge strong {
+  font-size: 1.2rem;
+}
+
+.details {
+  padding: 15px;
+}
+
+.tips {
+  margin-top: 15px;
+  background: #fff3cd;
+  padding: 10px;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.tips h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.tips li {
+  font-size: 0.9rem;
+}

@@ -6,6 +6,7 @@ import { db } from './db/index.js'
 import { content, user } from './db/schema.js'
 import { eq, desc } from 'drizzle-orm'
 import { auth } from './auth.js'
+import { analytics } from './routes/analytics.js'
 
 const app = new Hono()
 
@@ -22,6 +23,9 @@ app.use('/*', cors({
 app.on(["POST", "GET"], "/api/auth/**", (c) => {
   return auth.handler(c.req.raw);
 });
+
+// Mount Analytics
+app.route('/api/analytics', analytics);
 
 // Temporary: Create a default user if none exists (for dev simplicity until Auth is built)
 // This ensures we always have a userId to attach to content
