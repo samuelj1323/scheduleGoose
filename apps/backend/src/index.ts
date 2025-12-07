@@ -3,22 +3,42 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { IContentCard } from '@schedulegoose/types'
 import { db } from './db/index.js'
-import { content, users } from './db/schema.js'
+import { content, user } from './db/schema.js'
 import { eq, desc } from 'drizzle-orm'
+import { auth } from './auth.js'
 
 const app = new Hono()
 
-app.use('/*', cors())
+app.use('/*', cors({
+  origin: ["http://localhost:3000"],
+  allowHeaders: ["Content-Type", "Authorization"],
+  allowMethods: ["POST", "GET", "OPTIONS"],
+  exposeHeaders: ["Content-Length"],
+  maxAge: 600,
+  credentials: true,
+}))
+
+// Mount Better Auth handler
+app.on(["POST", "GET"], "/api/auth/**", (c) => {
+  return auth.handler(c.req.raw);
+});
 
 // Temporary: Create a default user if none exists (for dev simplicity until Auth is built)
 // This ensures we always have a userId to attach to content
 async function getOrCreateDefaultUser() {
-  const existing = await db.select().from(users).limit(1);
+  const existing = await db.select().from(user).limit(1);
   if (existing.length > 0) return existing[0];
   
-  const [newUser] = await db.insert(users).values({
+  // NOTE: This will crash now because we removed the manual insertion logic for uuid
+  // We need to provide a CUID or similar text ID, or rely on Better Auth to create users.
+  // For now, let's create a placeholder user with a text ID.
+  const [newUser] = await db.insert(user).values({
+    id: 'default-dev-user',
     email: 'dev@schedulegoose.com',
     name: 'Developer Goose',
+    emailVerified: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   }).returning();
   return newUser;
 }
@@ -31,6 +51,8 @@ const routes = app
     return c.json({ status: 'ok' })
   })
   .get('/api/content', async (c) => {
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+    
     // Join with user to get author name
     const result = await db.select({
       id: content.id,
@@ -39,10 +61,10 @@ const routes = app
       scheduledTime: content.scheduledTime,
       createdTime: content.createdTime,
       metadata: content.metadata,
-      authorName: users.name,
+      authorName: user.name,
     })
     .from(content)
-    .leftJoin(users, eq(content.userId, users.id))
+    .leftJoin(user, eq(content.userId, user.id))
     .orderBy(desc(content.scheduledTime));
 
     // Map DB result back to IContentCard structure for frontend compatibility
@@ -67,8 +89,20 @@ const routes = app
     return c.json(mappedContent)
   })
   .post('/api/content', async (c) => {
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+    
+    // Fallback to default user if no session (during dev)
+    // In production we should require session: if (!session) return c.json({error: "Unauthorized"}, 401)
+    let userId = session?.user.id;
+    let userName = session?.user.name;
+
+    if (!userId) {
+       const defaultUser = await getOrCreateDefaultUser();
+       userId = defaultUser.id;
+       userName = defaultUser.name;
+    }
+
     const body = await c.req.json() as any;
-    const defaultUser = await getOrCreateDefaultUser();
 
     // Extract metadata fields based on type
     const { title, type, scheduledTime, createdTime, ...metadataRest } = body;
@@ -77,7 +111,7 @@ const routes = app
     // but they might need to go into metadata for now to preserve IContentCard shape
     
     const [newContent] = await db.insert(content).values({
-      userId: defaultUser.id,
+      userId: userId!,
       title: title,
       type: type,
       status: 'scheduled', // Default to scheduled
@@ -91,7 +125,7 @@ const routes = app
     return c.json({
       ...body,
       id: newContent.id, // Return real UUID
-      author: defaultUser.name
+      author: userName
     }, 201);
   })
 

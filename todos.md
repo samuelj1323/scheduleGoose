@@ -14,8 +14,8 @@
 - [x] **Database Integration**
   - [x] Set up Postgres/SQLite with Drizzle ORM.
   - [x] Create schemas for Users, Content, and Drafts.
-- [ ] **Authentication**
-  - [ ] Implement Better Auth for user management.
+- [x] **Authentication**
+  - [x] Implement Better Auth for user management.
 
 ## Frontend (`apps/frontend`)
 - [x] **Connect to Backend**
