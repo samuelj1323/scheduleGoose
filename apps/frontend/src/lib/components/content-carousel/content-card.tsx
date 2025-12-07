@@ -28,18 +28,13 @@ const ContentCard = (props: IContentCard) => {
     return props.type.charAt(0).toUpperCase() + props.type.slice(1);
   };
 
-  const getTypeColor = () => {
+  const getTypeColorClass = () => {
     switch (props.type) {
-      case "video":
-        return styles.typeVideo;
-      case "audio":
-        return styles.typeAudio;
-      case "image":
-        return styles.typeImage;
-      case "text":
-        return styles.typeText;
-      default:
-        return "";
+      case "video": return styles.typeVideo;
+      case "audio": return styles.typeAudio;
+      case "image": return styles.typeImage;
+      case "text": return styles.typeText;
+      default: return "";
     }
   };
 
@@ -52,7 +47,7 @@ const ContentCard = (props: IContentCard) => {
         });
         if (res.ok) {
             alert("Published successfully!");
-            window.location.reload(); // Simple refresh to update status
+            window.location.reload(); 
         } else {
             const err = await res.json();
             alert("Failed to publish: " + (err as any).error);
@@ -80,6 +75,7 @@ const ContentCard = (props: IContentCard) => {
         return (
           <div className={styles.mediaWrapper}>
             <div className={styles.audioContainer}>
+              <span style={{fontSize: '3rem'}}>🎵</span>
               <audio className={styles.audio} controls>
                 <source src={props.href} type="audio/mpeg" />
                 Your browser does not support the audio tag.
@@ -108,73 +104,55 @@ const ContentCard = (props: IContentCard) => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardMedia}>
+          <div className={`${styles.typeBadge} ${getTypeColorClass()}`}>
+            {getTypeLabel()}
+          </div>
           <Media />
         </div>
         <div className={styles.cardContent}>
           <div className={styles.cardHeader}>
-            <div className={styles.headerTop}>
-              <span className={`${styles.typeBadge} ${getTypeColor()}`}>
-                {getTypeLabel()}
-              </span>
-              {props.status && (
-                 <span style={{ marginLeft: 'auto', fontSize: '0.8em', textTransform: 'uppercase', color: '#666' }}>
-                    {props.status}
-                 </span>
-              )}
-            </div>
+             <div className={styles.statusRow}>
+                {props.status && (
+                    <span className={`${styles.statusBadge} ${props.status === 'published' ? styles.statusPublished : styles.statusScheduled}`}>
+                        {props.status}
+                    </span>
+                )}
+             </div>
             <h3 className={styles.title}>{props.title}</h3>
-            <p className={styles.subtitle}>{props.subTitle}</p>
+            {props.subTitle && <p className={styles.subtitle}>{props.subTitle}</p>}
           </div>
+          
           <div className={styles.cardMeta}>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Author</span>
-              <span className={styles.metaValue}>{props.author}</span>
-            </div>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Created</span>
-              <span className={styles.metaValue}>
-                {formatDate(props.createdTime)} at{" "}
-                {formatTime(props.createdTime)}
-              </span>
-            </div>
-            <div className={styles.metaItem}>
-              <span className={styles.metaLabel}>Scheduled</span>
-              <span className={styles.metaValue}>
-                {formatDate(props.scheduledTime)} at{" "}
-                {formatTime(props.scheduledTime)}
-              </span>
+            <div className={styles.metaGrid}>
+                <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Scheduled</span>
+                <span className={styles.metaValue}>
+                    {formatDate(props.scheduledTime)}
+                </span>
+                </div>
+                <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Author</span>
+                <span className={styles.metaValue}>{props.author}</span>
+                </div>
             </div>
 
             {props.type === 'video' && props.views !== undefined && (
-                 <div className={styles.metaItem} style={{ borderTop: '1px solid #eee', paddingTop: 8, marginTop: 8 }}>
-                    <div style={{ display: 'flex', gap: 15, width: '100%', fontSize: '0.9em', color: '#555' }}>
-                        <span>👁️ {props.views}</span>
-                        <span>👍 {props.likes}</span>
-                        <span>💬 {props.commentCount}</span>
-                    </div>
+                 <div className={styles.statsRow}>
+                    <div title="Views">👁️ {props.views}</div>
+                    <div title="Likes">👍 {props.likes}</div>
+                    <div title="Comments">💬 {props.commentCount}</div>
                 </div>
             )}
             
             {/* Publish Action */}
             {props.status !== 'published' && props.type === 'video' && props.id && (
-                <div className={styles.metaItem} style={{ width: '100%', marginTop: 10 }}>
-                    <button 
-                        onClick={handlePublish} 
-                        disabled={publishing}
-                        style={{
-                            width: '100%',
-                            padding: '8px',
-                            backgroundColor: '#ff0000',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        {publishing ? 'Uploading to YouTube...' : 'Publish to YouTube'}
-                    </button>
-                </div>
+                <button 
+                    onClick={handlePublish} 
+                    disabled={publishing}
+                    className={styles.publishButton}
+                >
+                    {publishing ? 'Uploading...' : '🚀 Publish to YouTube'}
+                </button>
             )}
           </div>
         </div>

@@ -36,7 +36,6 @@ function Index() {
   const content = Route.useLoaderData();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [importing, setImporting] = useState(false);
-  const session = authClient.useSession(); 
 
   const filteredContent = content.filter((item) => {
     if (!selectedDate) return true; 
@@ -51,7 +50,6 @@ function Index() {
           const res = await client.api.import.youtube.$post();
           const data = await res.json();
           if (res.ok) {
-            // Check if success response
             if ('imported' in data) {
                 alert(`Successfully imported ${data.imported} videos!`);
                 window.location.reload(); 
@@ -71,32 +69,23 @@ function Index() {
 
   return (
     <div className={styles.container}>
-      <header style={{ padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>ScheduleGoose</h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-             <a href="/posts" style={{ marginRight: 20, textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>All Posts & Tools</a>
-             <button 
-                onClick={handleImport}
-                disabled={importing}
-                style={{ marginRight: 20 }}
-             >
-                {importing ? 'Importing...' : 'Sync YouTube Videos'}
-             </button>
-             {session.data?.user.image && (
-                 <img src={session.data.user.image} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%' }} />
-             )}
-            <span>{session.data?.user.name}</span>
-            <button onClick={async () => {
-              await authClient.signOut();
-              window.location.href = "/login";
-            }}>Sign Out</button>
+      <div className={styles.dashboardHeader}>
+        <div>
+            <h1>Dashboard</h1>
+            <p className={styles.welcomeText}>Here is what's happening with your schedule.</p>
         </div>
-      </header>
-      <div className={styles.container}>
-        <Schedule selectedDate={selectedDate} onDateChange={setSelectedDate} />
-        <ContentCarousel scheduledContent={filteredContent} />
-        <ContentCalendar />
+        <button 
+            onClick={handleImport}
+            disabled={importing}
+            className={styles.importButton}
+        >
+            {importing ? 'Syncing...' : '🔄 Sync YouTube'}
+        </button>
       </div>
+
+      <Schedule selectedDate={selectedDate} onDateChange={setSelectedDate} />
+      <ContentCarousel scheduledContent={filteredContent} />
+      <ContentCalendar />
     </div>
   );
 }

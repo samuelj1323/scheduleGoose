@@ -1,10 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
 :root {
-  --background: rgb(254, 251, 237);
-  --primary: rgb(96, 84, 143);
+  /* Playful Palette */
+  --color-primary: #FF9F1C;
+  --color-primary-hover: #e0860b;
+  --color-secondary: #2EC4B6;
+  --color-secondary-hover: #25a094;
+  --color-accent: #E71D36;
+  --color-warning: #FFBF69;
+  
+  --color-background: #FDFBF7; /* Slightly warm off-white */
+  --color-surface: #FFFFFF;
+  --color-border: #EEEEEE;
+  
+  --color-text: #2D3047;
+  --color-text-muted: #8D99AE;
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 4px rgba(45, 48, 71, 0.05);
+  --shadow-md: 0 8px 16px rgba(45, 48, 71, 0.08);
+  --shadow-lg: 0 16px 32px rgba(45, 48, 71, 0.12);
+  --shadow-pop: 4px 4px 0px rgba(45, 48, 71, 0.1); /* Pop art style shadow */
+
+  --font-family: 'Nunito', sans-serif;
 }
 
 * {
-  font-family: "Red Hat Display", sans-serif;
+  font-family: var(--font-family);
+  box-sizing: border-box;
 }
 
 html,
@@ -12,6 +39,9 @@ body {
   height: 100%;
   margin: 0;
   min-width: 320px;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -23,4 +53,35 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* Global Button Styles */
+button {
+  font-family: var(--font-family);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E0E0E0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C0C0C0;
 }

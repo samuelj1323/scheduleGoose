@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, Link } from "@tanstack/react-router";
 import { hc } from 'hono/client';
 import type { AppType } from '@schedulegoose/backend';
 import { authClient } from "$lib/auth-client";
@@ -46,13 +46,13 @@ function Posts() {
        <header className={styles.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
             <h2>All Posts</h2>
-            <a href="/" style={{ textDecoration: 'none', color: '#666' }}>&larr; Back to Dashboard</a>
+            <Link to="/" className={styles.backLink}>&larr; Back to Dashboard</Link>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className={styles.userInfo}>
             {session.data?.user.image && (
-                <img src={session.data.user.image} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+                <img src={session.data.user.image} alt="Profile" className={styles.userImage} />
             )}
-            <span>{session.data?.user.name}</span>
+            <span className={styles.userName}>{session.data?.user.name}</span>
         </div>
       </header>
 
@@ -62,25 +62,27 @@ function Posts() {
             onChange={(e) => setFilter(e.target.value as any)}
             className={styles.filterSelect}
           >
-              <option value="all">All Content</option>
+              <option value="all">All Content Types</option>
               <option value="video">Videos</option>
               <option value="audio">Audio</option>
               <option value="image">Images</option>
               <option value="text">Text</option>
           </select>
-          <div style={{ marginLeft: 'auto', fontSize: '0.9em', color: '#666' }}>
-              Showing {filteredContent.length} posts
+          <div className={styles.count}>
+              Found {filteredContent.length} posts
           </div>
       </div>
 
       <div className={styles.grid}>
           {filteredContent.map((item) => (
-              <ContentCard key={item.id} {...item} />
+              <div key={item.id} style={{ height: 400 }}>
+                <ContentCard {...item} />
+              </div>
           ))}
       </div>
 
-      <div style={{ marginTop: 40, borderTop: '1px solid #eee', paddingTop: 20 }}>
-          <h3>Tools</h3>
+      <div className={styles.toolsSection}>
+          <h3>Creative Tools</h3>
           <ThumbnailGenerator />
       </div>
     </div>

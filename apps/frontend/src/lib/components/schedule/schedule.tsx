@@ -15,8 +15,12 @@ const Schedule = ({ selectedDate, onDateChange }: ScheduleProps) => {
     onDateChange(date);
   };
 
+  const handleToday = () => {
+      onDateChange(new Date());
+  };
+
   const formatSelectedDate = (date: Date | undefined) => {
-    if (!date) return "";
+    if (!date) return "All Time";
     return date.toLocaleDateString(undefined, {
       weekday: "long",
       year: "numeric",
@@ -32,24 +36,30 @@ const Schedule = ({ selectedDate, onDateChange }: ScheduleProps) => {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+  
+  // For input value, handle undefined
+  const inputValue = selectedDate ? selectedDate.toISOString().split("T")[0] : '';
 
   return (
     <div className={styles.scheduleContainer}>
       <div className={styles.calendarWrapper}>
-        <label htmlFor="date-picker" className={styles.label}>
-          Select Date
-        </label>
-        <input
-          id="date-picker"
-          type="date"
-          value={selectedDate?.toISOString().split("T")[0]}
-          onChange={handleDateChange}
-          className={styles.dateInput}
-          min={getTodayDateString()}
-        />
-        <div className={styles.selectedDate}>
-          <span className={styles.dateLabel}>Selected:</span>
-          <span className={styles.dateValue}>{formatSelectedDate(selectedDate)}</span>
+        <div className={styles.headerGroup}>
+            <label className={styles.label}>Viewing Content For</label>
+            <div className={styles.dateDisplay}>
+                {formatSelectedDate(selectedDate)}
+            </div>
+        </div>
+
+        <div className={styles.controls}>
+             <button onClick={handleToday} className={styles.todayButton}>
+                Jump to Today
+            </button>
+            <input
+            type="date"
+            value={inputValue}
+            onChange={handleDateChange}
+            className={styles.dateInput}
+            />
         </div>
       </div>
     </div>
@@ -57,4 +67,3 @@ const Schedule = ({ selectedDate, onDateChange }: ScheduleProps) => {
 };
 
 export default Schedule;
-
