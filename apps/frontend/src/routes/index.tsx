@@ -74,6 +74,7 @@ function Index() {
       <header style={{ padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2>ScheduleGoose</h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+             <a href="/posts" style={{ marginRight: 20, textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>All Posts & Tools</a>
              <button 
                 onClick={handleImport}
                 disabled={importing}
